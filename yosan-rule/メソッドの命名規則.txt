@@ -1,0 +1,35 @@
+日時の中で探すときはin
+
+$budget 単数
+$budgets 複数
+$groupBudgets グループ化したリスト
+$monthGroupBudgets グループ化したリストグループキーをつける
+$sortBudgets ソートしたリスト
+$monthSortBudgets ソートしたリスト ソートキーをつける
+$filterBudgets フィルタリングしたリスト
+$monthFilterBudgets フィルタリングしたリスト フィルタした条件をつける
+$groupFilterBudgets フィルタリングしてグループ化したリスト
+$monthGroupFilterBudgets フィルタリングしてグループ化したリスト 長さ20を超えるのは避けたい
+// month group client_id filter
+$groupFilterBudgets フィルタリングしてグループ化したリスト コメントをつけて長い変数名を回避
+$groupFilterSortBudgets 長い
+// g group
+$gFilterSortBudgets 省略してコメントを書く
+
+findInMonth() いい
+findByMonthAndClientId() マジックメソッドなのでいい
+findByMonthAndClientIdAndStatus() 多い
+findInMonth($clientId, $status) 引数で伝える
+findDoneInMonth($clientId, $status) なるべく関数名で伝える
+findDoneFirst10InMonth($clientId) でも20超えると長いから避けたい
+
+ケースが限定的すぎると再利用しづらいので避ける
+findDoneInMonth($clientId)
+// first10をフィルタリング
+
+findInMonth($clientId, $parentId, $tagId, $LocationId) 条件おおい、限定的
+
+setConditions(['client_id' => $clientId, 'parent_id' => $parentId])
+findInMonth($tagId, $LocationId) 先に条件をセットする作りにする
+
+

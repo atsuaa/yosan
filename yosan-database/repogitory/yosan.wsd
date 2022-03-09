@@ -1,0 +1,128 @@
+@startuml yosandb
+title 予算システムＤＢ
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+package "ユーザー" <<Frame>> {
+  entity "users" as u {
+    *id : number <<AI>>
+    --
+    *user_disp_id : text
+    *email : text
+    *password : text
+    *name : text
+    *age : number
+    *sex : number
+  }
+  
+  entity "master_living_styles" as mls {
+    *id : number <<AI>>
+    --
+    *name : text
+  }
+  
+  entity "living_styles" as ls {
+    *id : number <<AI>>
+    *master_living_style_id : number
+    *user_id : number
+    --
+    created_at : date[yyyy-mm-dd]
+  }
+  
+  mls ||..o| ls
+  u ||..o| ls
+  
+  entity "master_incomes" as mi {
+    *id : number <<AI>>
+    --
+    *name : text
+  }
+  
+  entity "incomes" as i {
+    *id : number <<AI>>
+    *master_income_id : number
+    *user_id : number
+    --
+    created_at : date[yyyy-mm-dd]
+  }
+  
+  mi ||..o| i
+  u ||..o| i
+}
+
+package "予算システム" <<Frame>> {
+  entity "budget_groups" as bg {
+    *id : number <<AI>>
+    *user_id : number
+    --
+  }
+  
+  u ||..|| bg
+  
+  entity "master_budgets" as mb {
+    *id : number <<AI>>
+    *group_id : number <<FK>>
+    *tag_id : number <<FK>>
+    --
+    *name : text
+    description : text
+    color_id : number
+  }
+  
+  entity "budgets" as b {
+    *id : number <<AI>>
+    *group_id : number <<FK>>
+    *tag_id : number <<FK>>
+    *master_budget_id : number <<FK>>
+    --
+    *price : number
+    *from_date : date[yyyy-mm-dd]
+    *to_date : date[yyyy-mm-dd]
+    description : text
+  }
+  
+  bg ||..o{ b
+  mb ||..o| b
+  
+  entity "budget_children" as bc {
+    *id : number <<AI>>
+    *budget_id : number <<FK>>
+    --
+    from_date : date[yyyy-mm-dd]
+    to_date : date[yyyy-mm-dd]
+    price : number
+  }
+  
+  b ||..o{ bc
+  
+  entity "tags" as t {
+    *id : number <<AI>>
+    *color_id: number <<FK>>
+    --
+    *name : text
+    description : text
+  }
+  
+  entity "spendings" as s {
+    *id : number <<AI>>
+    *budget_id : number <<FK>>
+    --
+    *price : number
+    *date : date[yyyy-mm-dd]
+    memo
+  }
+  
+  s }o..|| b
+  
+  entity "colors" as c {
+    *id : number <<AI>>
+    --
+    *code : char
+  }
+}
+
+@enduml

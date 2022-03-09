@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  app:
+    image: plantuml/plantuml-server
+    ports:
+      - 3000:8000
+    tty: true
+    volumes:
+      - ./repogitory:/var/lib/jetty/repogitory
